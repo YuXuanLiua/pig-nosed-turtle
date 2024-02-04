@@ -6,12 +6,12 @@ KmerFreq_HA -k 23 -t 50 -p PigNoseTurtle -l zb.R1.fq.gz zb.R2.fq.gz -L 150
 KmerFreq_HA -k 25 -t 50 -p PigNoseTurtle -l zb.R1.fq.gz zb.R2.fq.gz -L 150 
 KmerFreq_HA -k 27 -t 50 -p PigNoseTurtle -l zb.R1.fq.gz zb.R2.fq.gz -L 150
 ```
-#01.HiFi.sh
+01.HiFi.sh
 ## hifiasm.sh
 ``` bash
 hifiasm -o PigNoseTurtle -t 60 zb_1.fq  zb_2.fq
 ```
-#02.Hi-C.sh
+02.Hi-C.sh
 ## mapping_arima.sh
 ``` bash
 #! /bin/bash
@@ -140,8 +140,8 @@ Species="zb"
 [[ -f yahs.out_scaffolds_final.sizes ]] || bioawk -c fastx '{print $name, length($seq)}' yahs.out_scaffolds_final.fa > yahs.out_scaffolds_final.sizes
 (java -jar -Xmx32G ~/Software/juicer-1.6/CPU/common/juicer_tools.1.9.9_jcuda.0.8.jar pre alignments_sorted.txt out.hic.part yahs.out_scaffolds_final.sizes) && (mv out.hic.part out.hic)
 ```
-#03.BUSCO.sh
-##busco5_genome.sh
+03.BUSCO.sh
+##sauropsida_odb10
 ``` bash
 genome=$1
 kind=geno
@@ -151,7 +151,7 @@ sp=Carettochelys insculpta
 mkdir -p $genome\.busco && cd $genome\.busco
 busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini
 ```
-##busco5_genome.sh
+##vertebrata_odb10
 ``` bash
 genome=$1
 kind=geno
@@ -161,7 +161,7 @@ sp=Carettochelys insculpta
 mkdir -p $genome\.busco && cd $genome\.busco
 busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini
 ```
-##busco5_genome.sh
+##tetrapoda_odb10
 ``` bash
 genome=$1
 kind=geno
@@ -171,7 +171,7 @@ sp=Carettochelys insculpta
 mkdir -p $genome\.busco && cd $genome\.busco
 busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini 
 ```
-#04.last.sh
+04.last.sh
 ##lastdb.sh
 ``` bash
 lastdb -P30 -c -u NEAR Rafetus_swinhoei.NEAR Rafetus_swinhoei.fa
@@ -180,7 +180,7 @@ lastdb -P30 -c -u NEAR Rafetus_swinhoei.NEAR Rafetus_swinhoei.fa
 ``` bash
 lastal -P20 -i2G -m10  pigNoseHomo.fa > pigNoseHomo.maf ;tail -n1 lastal_outdir/pigNoseHomo/pigNoseHomo.maf last-split -m10 pigNoseHomo.maf >pigNoseHomo.1.maf ;last-split -r -m10 pigNoseHomo.1.maf > pigNoseHomo.2.maf ;maf-sort pigNoseHomo.2.maf >pigNoseHomo.sort.maf
 ```
-#05.Repeat_annotation.sh
+05.Repeat_annotation.sh
 ##TRF.sh
 ``` bash
 trf pigNoseTurtle.fa 2 7 7 80 10 50 500 -d -h -ngs > pigNoseTurtle.fa.dat; perl convertTRF2gff.pl pigNoseTurtle.fa.dat pigNoseTurtle.fa.gff
@@ -199,7 +199,7 @@ BuildDatabase -name pigNoseTurtle -engine ncbi pigNoseTurtle.fa
 RepeatModeler -database pigNoseTurtle -pa 10
 RepeatMasker -e ncbi -lib consensi.fa.classified -gff pigNoseTurtle.fa -dir pigNoseTurtle
 ```
-#06.Gene_annotation.sh
+06.Gene_annotation.sh
 ##Assembly_transcriptome.sh
 ``` bash
 rnaspades.py -1 muscle_1.fq.gz -2 muscle_2.fq.gz -o muscle;
@@ -247,7 +247,7 @@ perl convert_EVM_outputs_to_GFF3.pl \
 	--genome data/genome.sm.fa
 #The weight configurations were as follows: the weight of Augustus software predicted by denovo was 2, and the weight of homologous notes and transcripts of different tissues was 10.
 ```
-#07.Function_annotation.sh
+07.Function_annotation.sh
 ##cog
 ``` bash
 blastp -query pigNoseTurtle.fa -out pigNoseTurtle.pep.fa.cog.blast -num_alignments 10 -db cog_clean.fa -outfmt 0 -evalue 1e-5  -num_threads 20
@@ -272,4 +272,3 @@ blastp  -query pigNoseTurtle.pep.fa -out pigNoseTurtle.pep.fa.swissprot.blast -n
 ``` bash
 diamond blastp -d uniprot_trembl.fasta -q pigNoseTurtle.pep.fa -o pigNoseTurtle.pep.fa.trembl.blast -k 10 -f 0 -e 1e-5 -p 20 -M 20G --quiet
 ```
-````
