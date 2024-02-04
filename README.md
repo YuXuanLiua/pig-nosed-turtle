@@ -141,7 +141,7 @@ Species="zb"
 (java -jar -Xmx32G ~/Software/juicer-1.6/CPU/common/juicer_tools.1.9.9_jcuda.0.8.jar pre alignments_sorted.txt out.hic.part yahs.out_scaffolds_final.sizes) && (mv out.hic.part out.hic)
 ```
 #03.BUSCO.sh
-##busco5_genome.sh sauropsida_odb10
+##busco5_genome_sauropsida_odb10.sh
 ``` bash
 genome=$1
 kind=geno
@@ -151,7 +151,7 @@ sp=Carettochelys insculpta
 mkdir -p $genome\.busco && cd $genome\.busco
 busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini
 ```
-##busco5_genome.sh vertebrata_odb10
+##busco5_genome_vertebrata_odb10.sh
 ``` bash
 genome=$1
 kind=geno
@@ -161,7 +161,7 @@ sp=Carettochelys insculpta
 mkdir -p $genome\.busco && cd $genome\.busco
 busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini
 ```
-##busco5_genome.sh tetrapoda_odb10
+##busco5_genome_tetrapoda_odb10.sh
 ``` bash
 genome=$1
 kind=geno
