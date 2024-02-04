@@ -1,0 +1,17 @@
+##cog
+blastp -query pigNoseTurtle.fa -out pigNoseTurtle.pep.fa.cog.blast -num_alignments 10 -db cog_clean.fa -outfmt 0 -evalue 1e-5  -num_threads 20
+
+##interpro
+interpro/interproscan-5.44-79.0/interproscan.sh -appl Gene3D,Pfam,SMART,SUPERFAMILY,PRINTS,Coils -td pigNoseTurtle.pep.temp -b pigNoseTurtle.pep.fa  -i pigNoseTurtle.pep.fa -iprlookup -goterms -f tsv -t p -dp
+
+##kegg
+blastp  -query pigNoseTurtle.pep.fa -out pigNoseTurtle.pep.fa.kegg.blast -num_alignments 10 -db kegg_all_clean.fa  -outfmt 0 -evalue 1e-5-num_threads 20
+
+##nr
+diamond blastp -q pigNoseTurtle.pep.fa -o pigNoseTurtle.pep.fa.nr.blast -k 10 -d NR.fasta -f 0 -e 1e-5 -p 20 -M 20G --quiet
+
+##swissprot
+blastp  -query pigNoseTurtle.pep.fa -out pigNoseTurtle.pep.fa.swissprot.blast -num_alignments 10 -db uniprot_sprot.fasta -outfmt 0 -evalue 1e-5  -num_threads 20
+
+##trembl
+diamond blastp -d uniprot_trembl.fasta -q pigNoseTurtle.pep.fa -o pigNoseTurtle.pep.fa.trembl.blast -k 10 -f 0 -e 1e-5 -p 20 -M 20G --quiet

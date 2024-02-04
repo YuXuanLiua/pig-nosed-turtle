@@ -1,0 +1,27 @@
+##busco5_genome.sh sauropsida_odb10
+genome=$1
+kind=geno
+database=sauropsida_odb10
+core=15
+sp=Carettochelys insculpta
+mkdir -p $genome\.busco && cd $genome\.busco
+busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini 
+
+##busco5_genome.sh vertebrata_odb10
+genome=$1
+kind=geno
+database=vertebrata_odb10
+core=15
+sp=Carettochelys insculpta
+mkdir -p $genome\.busco && cd $genome\.busco
+busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini 
+
+##busco5_genome.sh tetrapoda_odb10
+genome=$1
+kind=geno
+database=tetrapoda_odb10
+core=15
+sp=Carettochelys insculpta
+mkdir -p $genome\.busco && cd $genome\.busco
+busco -m $kind -i ../$genome -o busco -l $database -c $core --config config.ini 
+

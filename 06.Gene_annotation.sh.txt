@@ -1,0 +1,41 @@
+##Transcode
+#Assembly_transcriptome.sh
+rnaspades.py -1 muscle_1.fq.gz -2 muscle_2.fq.gz -o muscle;
+rnaspades.py -1 liver_1.fq.gz -2 liver_2.fq.gz -o liver;
+rnaspades.py -1 kidney_1.fq.gz -2 kidney_2.fq.gz -o kidney;
+rnaspades.py -1 spleen_1.fq.gz -2 spleen_2.fq.gz -o spleen;
+rnaspades.py -1 lung_1.fq.gz -2 lung_2.fq.gz -o lung;
+rnaspades.py -1 trachea_1.fq.gz -2 trachea_2.fq.gz -o trachea;
+cat muscle_trans.fa liver_trans.fa kidney_trans.fa spleen_trans.fa lung_trans.fa trachea_trans.fa > transcripts.fasta
+
+#elimination_redundancy.sh
+cd-hit-est -i transcripts.fasta -o transcripts.fasta -T 30 -M 1600 > cdhit.out
+#predict_cds.sh
+TransDecoder.LongOrfs -t cdhit.out;
+TransDecoder.Predict -t cdhit.out
+
+##denovo
+augustus --species=human --uniqueGeneId=true  scaffolds/ctg000000.fa >ctg000000.gff
+##Genwise
+#blat.sh
+blat pig_nosedTurtle.fa Chicken.pep -makeOoc=pig_nosedTurtle.fa.dnax.ooc -t=dnax -q=prot out.psl
+blat pig_nosedTurtle.fa query.pep -ooc=pig_nosedTurtle.fa.dnax.ooc -maxIntron=5000000 -noHead -t=dnax -q=prot pig_nosedTurtle.psl;
+#genwise.sh
+genewise query.fa -nosplice_gtag -trev pig_nosedTurtle.fa -silent -pretty -pseudo -gff -cdna -trans > gene.genewise
+
+##EVM.pl
+perl partition_EVM_inputs.pl --genome ../data/genome.sm.fa --gene_predictions ../data/denovo.gff --protein_alignments ../data/homolog.gff --segmentSize 5000000 --overlapSize 10000 --partition_listing partitions_list.out 
+
+perl write_EVM_commands.pl \
+ --genome data/genome.sm.fa \
+ --weighqts weights.txt \
+ --gene_predictions data/denovo.gff \
+ --protein_alignments data/homolog.gff \
+ --output_file_name evm.out \
+ --partitions partition/partitions_list.out > work.sh
+
+perl convert_EVM_outputs_to_GFF3.pl \
+	--partition partition/partitions_list.out \
+	--output_file_name evm.out \
+	--genome data/genome.sm.fa
+#The weight configurations were as follows: the weight of Augustus software predicted by denovo was 2, and the weight of homologous notes and transcripts of different tissues was 10.

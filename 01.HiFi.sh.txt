@@ -1,0 +1,2 @@
+## hifiasm.sh
+hifiasm -o PigNoseTurtle -t 60 zb_1.fq  zb_2.fq

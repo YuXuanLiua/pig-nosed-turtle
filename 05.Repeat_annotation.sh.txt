@@ -1,0 +1,13 @@
+##TRF.sh
+trf pigNoseTurtle.fa 2 7 7 80 10 50 500 -d -h -ngs > pigNoseTurtle.fa.dat; perl convertTRF2gff.pl pigNoseTurtle.fa.dat pigNoseTurtle.fa.gff
+
+##Repeatmasker.sh
+RepeatMasker -pa 12 -species 'turtles' -nolow -norna -no_is -gff pigNoseTurtle.fa -dir pigNoseHomo
+
+##repeatProteinMask.sh
+RepeatProteinMask -engine ncbi -noLowSimple -pvalue 1e-04 input.fa
+
+##RepeatModeler.sh
+BuildDatabase -name pigNoseTurtle -engine ncbi pigNoseTurtle.fa 
+RepeatModeler -database pigNoseTurtle -pa 10
+RepeatMasker -e ncbi -lib consensi.fa.classified -gff pigNoseTurtle.fa -dir pigNoseTurtle

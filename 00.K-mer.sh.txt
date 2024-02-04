@@ -1,0 +1,5 @@
+## soapec.sh The genome size was predicted based on different K-mer and second-sequencing data
+KmerFreq_HA -k 21 -t 50 -p PigNoseTurtle -l zb.R1.fq.gz zb.R2.fq.gz -L 150 
+KmerFreq_HA -k 23 -t 50 -p PigNoseTurtle -l zb.R1.fq.gz zb.R2.fq.gz -L 150 
+KmerFreq_HA -k 25 -t 50 -p PigNoseTurtle -l zb.R1.fq.gz zb.R2.fq.gz -L 150 
+KmerFreq_HA -k 27 -t 50 -p PigNoseTurtle -l zb.R1.fq.gz zb.R2.fq.gz -L 150 

@@ -1,0 +1,5 @@
+##lastdb.sh
+lastdb -P30 -c -u NEAR Rafetus_swinhoei.NEAR Rafetus_swinhoei.fa
+
+##lastal.sh
+lastal -P20 -i2G -m10  pigNoseHomo.fa > pigNoseHomo.maf ;tail -n1 lastal_outdir/pigNoseHomo/pigNoseHomo.maf last-split -m10 pigNoseHomo.maf >pigNoseHomo.1.maf ;last-split -r -m10 pigNoseHomo.1.maf > pigNoseHomo.2.maf ;maf-sort pigNoseHomo.2.maf >pigNoseHomo.sort.maf
